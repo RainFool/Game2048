@@ -43,7 +43,7 @@ public class GameView extends GridLayout {
 			public boolean onTouch(View v, MotionEvent event) {
 
 				// 事件开始的时候存储游戏状态
-				save();
+//				save();
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 					startX = event.getX();
