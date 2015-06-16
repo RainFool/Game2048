@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -22,10 +21,17 @@
     </LinearLayout>
 
     <com.example.game2048.GameView
-        android:layout_height="0dp"
+        android:id="@+id/gameView"
         android:layout_width="fill_parent"
-        android:layout_weight="1"
-        android:id="@+id/gameView" >
+        android:layout_height="0dp"
+        android:layout_weight="0.8" >
     </com.example.game2048.GameView>
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+         />
 
 </LinearLayout>

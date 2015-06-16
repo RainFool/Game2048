@@ -7,12 +7,27 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 public class GameView extends GridLayout {
 
+	//记录卡片当期状态
+	private Card[][] cardsMap = new Card[4][4];
+	//记录卡片上次状态，以供撤销使用
+	private int[][] lastCardsMap = new int[4][4];
+
+	// 使用点类记录可以产生随机卡片的位置，实际上就是同时记录x,y
+	private List<Point> emptyPoints = new ArrayList<Point>();
+	//记录每张卡片宽度的值
+	int cardWidth = -1;
+
+	//返回上一步的按钮
+	Button btnBack;
 	public GameView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initGameView();
@@ -25,6 +40,17 @@ public class GameView extends GridLayout {
 
 	public GameView(Context context) {
 		super(context);
+		btnBack = (Button) findViewById(R.id.btn_back);
+		btnBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getContext(), "默认Toast样式",
+						Toast.LENGTH_SHORT).show();
+				Log.i("GameView","btn clicked");
+				backLastView();
+
+			}
+		});
 		initGameView();
 	}
 
@@ -34,43 +60,40 @@ public class GameView extends GridLayout {
 		setOnTouchListener(new View.OnTouchListener() {
 
 			// 起始点、终止点、x上偏移量、y上偏移量
-			float startX;
-			float startY;
-			float offsetX;
-			float offsetY;
+			private float startX, startY, offsetX, offsetY;
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
 				// 事件开始的时候存储游戏状态
-//				save();
+				save();
 				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					startX = event.getX();
-					startY = event.getY();
-					break;
-				case MotionEvent.ACTION_UP:
-					offsetX = event.getX() - startX;
-					offsetY = event.getY() - startY;
+					case MotionEvent.ACTION_DOWN:
+						startX = event.getX();
+						startY = event.getY();
+						break;
+					case MotionEvent.ACTION_UP:
+						offsetX = event.getX() - startX;
+						offsetY = event.getY() - startY;
 
-					if (Math.abs(offsetX) > Math.abs(offsetY)) {
-						// 水平方向上
-						if (offsetX < -5) {
-							System.out.println("left");
-							swipeLeft();
-						} else if (offsetX > 5) {
-							swipeRight();
+						if (Math.abs(offsetX) > Math.abs(offsetY)) {
+							// 水平方向上
+							if (offsetX < -5) {
+								System.out.println("left");
+								swipeLeft();
+							} else if (offsetX > 5) {
+								swipeRight();
+							}
+						} else {
+							// 垂直方向
+							if (offsetY < -5) {
+								swipeUp();
+							} else if (offsetY > 5) {
+								swipeDown();
+							}
 						}
-					} else {
-						// 垂直方向
-						if (offsetY < -5) {
-							swipeUp();
-						} else if (offsetY > 5) {
-							swipeDown();
-						}
-					}
 
-					break;
+						break;
 
 				}
 				return true;
@@ -200,23 +223,7 @@ public class GameView extends GridLayout {
 		addRandomNum();
 	}
 
-	private Card[][] cardsMap = new Card[4][4];
-	private List<Point> emptyPoints = new ArrayList<Point>();// 空的点，记录可以产生随机数的地方
 
-	private void addCards(int cardWidth, int cardHeight) {
-		Card c;
-		for (int y = 0; y < 4; y++) {
-			for (int x = 0; x < 4; x++) {
-				c = new Card(getContext());
-				// 初始化全部卡片，并用数组记录
-				c.setNum(0);
-				addView(c, cardWidth, cardHeight);
-
-				cardsMap[x][y] = c;
-			}
-
-		}
-	}
 
 	// 给没有数字的card上产生随机数并加入
 	private void addRandomNum() {
@@ -235,23 +242,42 @@ public class GameView extends GridLayout {
 	}
 
 	// 存储游戏当前状态
-	private Card[][] save() {
-		Card [][] tmp = new Card[cardsMap.length][]; 
-		for (int i = 0; i < cardsMap.length; i++) {
-			System.arraycopy(cardsMap[i], 0, tmp[i], 0, cardsMap.length);
+	private void save() {
+//		lastCardsMap = cardsMap.clone();这种方式只能实现数组的浅复制，存储的是指针，打印出来一样但会同时被更改
+		for(int i = 0;i < 4;i ++) {
+			for(int j = 0; j < 4 ; j ++) {
+				lastCardsMap[i][j] = cardsMap[i][j].getNum();
+			}
 		}
-		System.out.println(Arrays.asList(cardsMap));
-		System.out.println(Arrays.asList(tmp));
-		return tmp;
 	}
-
+	//返回上次布局
+	public void backLastView() {
+		Toast.makeText(getContext(), "撤销",
+				Toast.LENGTH_SHORT).show();
+		for (int i = 0;i < 4;i ++) {
+			for(int j = 0;j < 4; j++) {
+				cardsMap[i][j].setNum(lastCardsMap[i][j]);
+			}
+		}
+	}
 	@Override
 	// 当屏幕分辨率发生改变的时候执行
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 		// 初始化每张卡片的宽
-		int cardWidth = (Math.min(w, h) - 10) / 4;
-		addCards(cardWidth, cardWidth);
+		cardWidth = (Math.min(w, h) - 10) / 4;
+		Card c;
+		for (int y = 0; y < 4; y++) {
+			for (int x = 0; x < 4; x++) {
+				c = new Card(getContext());
+				// 初始化全部卡片，并用数组记录
+				c.setNum(0);
+				addView(c, cardWidth, cardWidth);
+
+				cardsMap[x][y] = c;
+			}
+
+		}
 
 		addRandomNum();
 		addRandomNum();
