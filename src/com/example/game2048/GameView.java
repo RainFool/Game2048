@@ -19,7 +19,7 @@ public class GameView extends GridLayout {
 	//记录卡片当期状态
 	private Card[][] cardsMap = new Card[4][4];
 	//记录卡片上次状态，以供撤销使用
-	private Card[][] lastCardsMap = new Card[4][4];
+	private int[][] lastCardsMap = new int[4][4];
 
 	// 使用点类记录可以产生随机卡片的位置，实际上就是同时记录x,y
 	private List<Point> emptyPoints = new ArrayList<Point>();
@@ -243,14 +243,20 @@ public class GameView extends GridLayout {
 
 	// 存储游戏当前状态
 	private void save() {
-		lastCardsMap = cardsMap.clone();
+//		lastCardsMap = cardsMap.clone();这种方式只能实现数组的浅复制，存储的是指针，打印出来一样但会同时被更改
+		for(int i = 0;i < 4;i ++) {
+			for(int j = 0; j < 4 ; j ++) {
+				lastCardsMap[i][j] = cardsMap[i][j].getNum();
+			}
+		}
 	}
 	//返回上次布局
 	public void backLastView() {
-//		this.removeAllViews();
+		Toast.makeText(getContext(), "撤销",
+				Toast.LENGTH_SHORT).show();
 		for (int i = 0;i < 4;i ++) {
 			for(int j = 0;j < 4; j++) {
-				cardsMap[i][j].setNum(lastCardsMap[i][j].getNum());
+				cardsMap[i][j].setNum(lastCardsMap[i][j]);
 			}
 		}
 	}
