@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class GameView extends GridLayout {
@@ -25,6 +26,12 @@ public class GameView extends GridLayout {
 	private List<Point> emptyPoints = new ArrayList<Point>();
 	//记录每张卡片宽度的值
 	int cardWidth = -1;
+	
+	//记录分数
+	int score = 0;
+	int backScore = 0;
+	//获取主面Activity引用
+	MainActivity mainActivity = MainActivity.getInstance();
 
 	//返回上一步的按钮
 	Button btnBack;
@@ -122,6 +129,7 @@ public class GameView extends GridLayout {
 						else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
+							countScore(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -152,6 +160,7 @@ public class GameView extends GridLayout {
 						else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
+							countScore(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -182,6 +191,7 @@ public class GameView extends GridLayout {
 						else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
+							countScore(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -212,6 +222,7 @@ public class GameView extends GridLayout {
 						else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
+							countScore(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -262,6 +273,16 @@ public class GameView extends GridLayout {
 				cardsMap[i][j].setNum(lastCardsMap[i][j]);
 			}
 		}
+		//设置分数
+		mainActivity.tvScore.setText(backScore + "");
+		score = backScore;
+	}
+	
+	//计分
+	private void countScore(int cardNum) {
+		backScore = score;
+		score += cardNum * 10;
+		mainActivity.tvScore.setText(score + "");
 	}
 	@Override
 	// 当屏幕分辨率发生改变的时候执行
