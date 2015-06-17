@@ -129,8 +129,8 @@ public class GameView extends GridLayout {
 						else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
 							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
-							cardsMap[x1][y].setNum(0);
-							
+							cardsMap[x1][y].setNum(0);	
+							successGame(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -163,7 +163,7 @@ public class GameView extends GridLayout {
 							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
-							
+							successGame(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -196,7 +196,7 @@ public class GameView extends GridLayout {
 							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
-							
+							successGame(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -229,7 +229,7 @@ public class GameView extends GridLayout {
 							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
-							
+							successGame(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -260,7 +260,7 @@ public class GameView extends GridLayout {
 			cardsMap[p.x][p.y].setNum(Math.random() > 0.1 ? 2 : 4);
 		}
 	}
-
+	
 	// 存储游戏当前状态
 	private void save() {
 //		lastCardsMap = cardsMap.clone();这种方式只能实现数组的浅复制，存储的是指针，打印出来一样但会同时被更改
@@ -337,6 +337,14 @@ public class GameView extends GridLayout {
 		
 	}
 	
+	
+	//判断是否成功玩到2048
+	public void successGame(int cardNum){
+		if (cardNum == 2048){
+			Toast.makeText(getContext(), "恭喜过关，成功到达2048",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
 	
 	@Override
 	// 当屏幕分辨率发生改变的时候执行
