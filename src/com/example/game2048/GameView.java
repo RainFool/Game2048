@@ -227,6 +227,7 @@ public class GameView extends GridLayout {
 
 	// 给没有数字的card上产生随机数并加入
 	private void addRandomNum() {
+		emptyPoints.clear();
 		// 将可以产生随机数的区域用list存储
 		for (int y = 0; y < 4; y++) {
 			for (int x = 0; x < 4; x++) {
@@ -236,9 +237,11 @@ public class GameView extends GridLayout {
 			}
 		}
 		// 随机取出一个点
-		Point p = emptyPoints
-				.remove((int) (Math.random() * emptyPoints.size()));
-		cardsMap[p.x][p.y].setNum(Math.random() > 0.1 ? 2 : 4);
+		if (!emptyPoints.isEmpty()){
+			Point p = emptyPoints
+					.remove((int) (Math.random() * emptyPoints.size()));
+			cardsMap[p.x][p.y].setNum(Math.random() > 0.1 ? 2 : 4);
+		}
 	}
 
 	// 存储游戏当前状态
