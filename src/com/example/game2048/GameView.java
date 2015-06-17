@@ -127,9 +127,10 @@ public class GameView extends GridLayout {
 
 						}// 当前不为空，并两张卡片值相同,则合并
 						else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
+							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
-							countScore(cardsMap[x][y].getNum());
+							
 						}
 						break;
 					}
@@ -158,9 +159,10 @@ public class GameView extends GridLayout {
 
 						}// 当前不为空，并两张卡片值相同,则合并
 						else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
+							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
-							countScore(cardsMap[x][y].getNum());
+							
 						}
 						break;
 					}
@@ -189,9 +191,10 @@ public class GameView extends GridLayout {
 
 						}// 当前不为空，并两张卡片值相同,则合并
 						else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
+							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
-							countScore(cardsMap[x][y].getNum());
+							
 						}
 						break;
 					}
@@ -220,9 +223,10 @@ public class GameView extends GridLayout {
 
 						}// 当前不为空，并两张卡片值相同,则合并
 						else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
+							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
-							countScore(cardsMap[x][y].getNum());
+							
 						}
 						break;
 					}

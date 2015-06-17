@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
 
 		gameView = (GameView) findViewById(R.id.gameView);
 		tvScore = (TextView) findViewById(R.id.tvScore);
+		tvScore.setText(0 + "");
 		
 		btnBack = (Button) findViewById(R.id.btn_back);
 		btnBack.setOnClickListener(new View.OnClickListener() {
