@@ -127,9 +127,10 @@ public class GameView extends GridLayout {
 
 						}// 当前不为空，并两张卡片值相同,则合并
 						else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
-							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
-							cardsMap[x1][y].setNum(0);
 							countScore(cardsMap[x][y].getNum());
+							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
+							cardsMap[x1][y].setNum(0);	
+							successGame(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -139,6 +140,7 @@ public class GameView extends GridLayout {
 		}
 		addRandomNum();
 		addRandomNum();
+		overGame();
 	}
 
 	private void swipeRight() {
@@ -158,9 +160,10 @@ public class GameView extends GridLayout {
 
 						}// 当前不为空，并两张卡片值相同,则合并
 						else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
+							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
-							countScore(cardsMap[x][y].getNum());
+							successGame(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -170,6 +173,7 @@ public class GameView extends GridLayout {
 		}
 		addRandomNum();
 		addRandomNum();
+		overGame();
 	}
 
 	private void swipeUp() {
@@ -189,9 +193,10 @@ public class GameView extends GridLayout {
 
 						}// 当前不为空，并两张卡片值相同,则合并
 						else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
+							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
-							countScore(cardsMap[x][y].getNum());
+							successGame(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -201,6 +206,7 @@ public class GameView extends GridLayout {
 		}
 		addRandomNum();
 		addRandomNum();
+		overGame();
 	}
 
 	private void swipeDown() {
@@ -220,9 +226,10 @@ public class GameView extends GridLayout {
 
 						}// 当前不为空，并两张卡片值相同,则合并
 						else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
+							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
-							countScore(cardsMap[x][y].getNum());
+							successGame(cardsMap[x][y].getNum());
 						}
 						break;
 					}
@@ -232,9 +239,8 @@ public class GameView extends GridLayout {
 		}
 		addRandomNum();
 		addRandomNum();
+		overGame();
 	}
-
-
 
 	// 给没有数字的card上产生随机数并加入
 	private void addRandomNum() {
@@ -254,7 +260,7 @@ public class GameView extends GridLayout {
 			cardsMap[p.x][p.y].setNum(Math.random() > 0.1 ? 2 : 4);
 		}
 	}
-
+	
 	// 存储游戏当前状态
 	private void save() {
 //		lastCardsMap = cardsMap.clone();这种方式只能实现数组的浅复制，存储的是指针，打印出来一样但会同时被更改
@@ -284,6 +290,62 @@ public class GameView extends GridLayout {
 		score += cardNum * 10;
 		mainActivity.tvScore.setText(score + "");
 	}
+	
+	//判断是否已经结束游戏
+	private void overGame(){
+		//记录是否还有空白块
+		boolean noEmptyPoint = true;
+		//记录水平方向上是否还可以合并
+		boolean horizontal = true;
+		//记录垂直方向上是否还可以合并
+		boolean vertical = true;
+		
+		//判断是否还有空白块
+		for (int y = 0 ; y < 4 ; y++){
+			for (int x = 0 ; x < 4 ; x++){
+				if (cardsMap[x][y].getNum() <= 0){
+					noEmptyPoint = false;
+				}
+			}
+		}	
+		
+		//判断水平方向上是否还可以合并
+		if (noEmptyPoint){
+			for (int y = 0 ; y < 4 ; y++){
+				for (int x = 0; x < 3 ; x++){
+					if(cardsMap[x][y].equals(cardsMap[x+1][y])){
+						horizontal = false;
+					}
+				}
+			}
+			
+			if(horizontal){
+				for ( int x = 0 ; x < 4 ; x++){
+					for (int y = 0 ; y < 3 ; y++){
+						if (cardsMap[x][y].equals(cardsMap[x][y+1])){
+							vertical = false;
+						}
+					}
+				}
+			}
+		}
+		
+		if (noEmptyPoint && horizontal && vertical){
+			Toast.makeText(getContext(), "游戏结束",
+					Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	
+	
+	//判断是否成功玩到2048
+	public void successGame(int cardNum){
+		if (cardNum == 2048){
+			Toast.makeText(getContext(), "恭喜过关，成功到达2048",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+	
 	@Override
 	// 当屏幕分辨率发生改变的时候执行
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -306,4 +368,5 @@ public class GameView extends GridLayout {
 		addRandomNum();
 		addRandomNum();
 	}
+	
 }
