@@ -140,6 +140,7 @@ public class GameView extends GridLayout {
 		}
 		addRandomNum();
 		addRandomNum();
+		overGame();
 	}
 
 	private void swipeRight() {
@@ -172,6 +173,7 @@ public class GameView extends GridLayout {
 		}
 		addRandomNum();
 		addRandomNum();
+		overGame();
 	}
 
 	private void swipeUp() {
@@ -204,6 +206,7 @@ public class GameView extends GridLayout {
 		}
 		addRandomNum();
 		addRandomNum();
+		overGame();
 	}
 
 	private void swipeDown() {
@@ -236,9 +239,8 @@ public class GameView extends GridLayout {
 		}
 		addRandomNum();
 		addRandomNum();
+		overGame();
 	}
-
-
 
 	// 给没有数字的card上产生随机数并加入
 	private void addRandomNum() {
@@ -288,6 +290,54 @@ public class GameView extends GridLayout {
 		score += cardNum * 10;
 		mainActivity.tvScore.setText(score + "");
 	}
+	
+	//判断是否已经结束游戏
+	private void overGame(){
+		//记录是否还有空白块
+		boolean noEmptyPoint = true;
+		//记录水平方向上是否还可以合并
+		boolean horizontal = true;
+		//记录垂直方向上是否还可以合并
+		boolean vertical = true;
+		
+		//判断是否还有空白块
+		for (int y = 0 ; y < 4 ; y++){
+			for (int x = 0 ; x < 4 ; x++){
+				if (cardsMap[x][y].getNum() <= 0){
+					noEmptyPoint = false;
+				}
+			}
+		}	
+		
+		//判断水平方向上是否还可以合并
+		if (noEmptyPoint){
+			for (int y = 0 ; y < 4 ; y++){
+				for (int x = 0; x < 3 ; x++){
+					if(cardsMap[x][y].equals(cardsMap[x+1][y])){
+						horizontal = false;
+					}
+				}
+			}
+			
+			if(horizontal){
+				for ( int x = 0 ; x < 4 ; x++){
+					for (int y = 0 ; y < 3 ; y++){
+						if (cardsMap[x][y].equals(cardsMap[x][y+1])){
+							vertical = false;
+						}
+					}
+				}
+			}
+		}
+		
+		if (noEmptyPoint && horizontal && vertical){
+			Toast.makeText(getContext(), "游戏结束",
+					Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	
+	
 	@Override
 	// 当屏幕分辨率发生改变的时候执行
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -310,4 +360,5 @@ public class GameView extends GridLayout {
 		addRandomNum();
 		addRandomNum();
 	}
+	
 }
