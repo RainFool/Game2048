@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -384,19 +386,43 @@ public class GameView extends GridLayout {
 		}
 		
 		if (noEmptyPoint && horizontal && vertical){
-			Toast.makeText(getContext(), "游戏结束",
-					Toast.LENGTH_SHORT).show();
+			AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+			builder.setMessage("游戏结束");
+			builder.setPositiveButton("取消", null);
+			builder.setNegativeButton("再玩一局", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					againGame();
+				}
+			});
+			builder.show();
 		}
 		
 	}
 	
 	
 	//判断是否成功玩到2048
-	public void successGame(int cardNum){
+	private void successGame(int cardNum){
 		if (cardNum == 2048){
 			Toast.makeText(getContext(), "恭喜过关，成功到达2048",
 					Toast.LENGTH_SHORT).show();
 		}
+	}
+	
+	//再玩一局
+	public void againGame(){
+		for (int y = 0; y < 4; y++) {
+			for (int x = 0; x < 4; x++) {
+				cardsMap[x][y].setNum(0);
+				lastCardsMap[x][y] = 0;
+			}
+		}
+		score = 0;
+		backScore = 0;
+		mainActivity.tvScore.setText(0 + "");
+		addRandomNum();
+		addRandomNum();
 	}
 	
 	@Override

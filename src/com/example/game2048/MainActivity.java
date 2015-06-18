@@ -13,6 +13,7 @@ public class MainActivity extends Activity {
 	private static MainActivity mainActivity;
 
 	Button btnBack;
+	Button btnAgain;
 	GameView gameView;
 	TextView tvScore;
 
@@ -37,6 +38,14 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				gameView.backLastView();
+			}
+		});
+		
+		btnAgain = (Button) findViewById(R.id.btn_again);
+		btnAgain.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				gameView.againGame();
 			}
 		});
 	}
