@@ -4,21 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="50dp" >
 
         <TextView
+            android:id="@+id/Score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             android:text="@string/score" />
 
         <TextView
             android:id="@+id/tvScore"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/Score"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/holo_red_light"/>
+        
+    </RelativeLayout>
 
     <com.example.game2048.GameView
         android:id="@+id/gameView"
@@ -26,12 +36,31 @@
         android:layout_height="0dp"
         android:layout_weight="0.8" >
     </com.example.game2048.GameView>
-
-    <Button
-        android:id="@+id/btn_back"
+    
+    <RelativeLayout 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.2"
-         />
+        >
+        <Button
+		    android:id="@+id/btn_back"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="撤销"
+		    android:textSize="25dp"
+		    android:layout_marginTop="30dp"
+		    />
+        <Button
+		    android:id="@+id/btn_again"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_toRightOf="@id/btn_back"
+		    android:text="重新开始"
+		    android:textSize="25dp"
+		    android:layout_marginTop="30dp"
+		    />
+    </RelativeLayout>
+
+    
 
 </LinearLayout>
