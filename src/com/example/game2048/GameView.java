@@ -30,6 +30,10 @@ public class GameView extends GridLayout {
 	//记录分数
 	int score = 0;
 	int backScore = 0;
+	
+	//记录滑动时是否有移动或合并，有才增加数字
+	boolean haveMove; 
+	
 	//获取主面Activity引用
 	MainActivity mainActivity = MainActivity.getInstance();
 
@@ -111,6 +115,7 @@ public class GameView extends GridLayout {
 
 	// 左右上下逻辑处理
 	private void swipeLeft() {
+		haveMove = false;
 		for (int y = 0; y < 4; y++) {
 			for (int x = 0; x < 4; x++) {
 
@@ -121,7 +126,7 @@ public class GameView extends GridLayout {
 						if (cardsMap[x][y].getNum() <= 0) {
 							cardsMap[x][y].setNum(cardsMap[x1][y].getNum());
 							cardsMap[x1][y].setNum(0);
-
+							haveMove = true;
 							// 如果当前为空，后面有两个以上相同的值
 							x--;
 
@@ -130,6 +135,7 @@ public class GameView extends GridLayout {
 							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);	
+							haveMove = true;
 							successGame(cardsMap[x][y].getNum());
 						}
 						break;
@@ -138,12 +144,15 @@ public class GameView extends GridLayout {
 			}
 
 		}
-		addRandomNum();
-		addRandomNum();
+		if (haveMove){
+			addRandomNum();
+			addRandomNum();
+		}
 		overGame();
 	}
 
 	private void swipeRight() {
+		haveMove = false;
 		for (int y = 0; y < 4; y++) {
 			for (int x = 3; x >= 0; x--) {
 
@@ -154,6 +163,7 @@ public class GameView extends GridLayout {
 						if (cardsMap[x][y].getNum() <= 0) {
 							cardsMap[x][y].setNum(cardsMap[x1][y].getNum());
 							cardsMap[x1][y].setNum(0);
+							haveMove = true;
 
 							// 如果当前为空，后面有两个以上相同的值
 							x++;
@@ -163,6 +173,7 @@ public class GameView extends GridLayout {
 							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
+							haveMove = true;
 							successGame(cardsMap[x][y].getNum());
 						}
 						break;
@@ -171,12 +182,15 @@ public class GameView extends GridLayout {
 			}
 
 		}
-		addRandomNum();
-		addRandomNum();
+		if (haveMove){
+			addRandomNum();
+			addRandomNum();
+		}
 		overGame();
 	}
 
 	private void swipeUp() {
+		haveMove = false;
 		for (int x = 0; x < 4; x++) {
 			for (int y = 0; y < 4; y++) {
 
@@ -187,6 +201,7 @@ public class GameView extends GridLayout {
 						if (cardsMap[x][y].getNum() <= 0) {
 							cardsMap[x][y].setNum(cardsMap[x][y1].getNum());
 							cardsMap[x][y1].setNum(0);
+							haveMove = true;
 
 							// 如果当前为空，后面有两个以上相同的值
 							y--;
@@ -196,6 +211,7 @@ public class GameView extends GridLayout {
 							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
+							haveMove = true;
 							successGame(cardsMap[x][y].getNum());
 						}
 						break;
@@ -204,12 +220,15 @@ public class GameView extends GridLayout {
 			}
 
 		}
-		addRandomNum();
-		addRandomNum();
+		if (haveMove){
+			addRandomNum();
+			addRandomNum();
+		}		
 		overGame();
 	}
 
 	private void swipeDown() {
+		haveMove = false;
 		for (int x = 0; x < 4; x++) {
 			for (int y = 3; y > 0; y--) {
 
@@ -220,6 +239,7 @@ public class GameView extends GridLayout {
 						if (cardsMap[x][y].getNum() <= 0) {
 							cardsMap[x][y].setNum(cardsMap[x][y1].getNum());
 							cardsMap[x][y1].setNum(0);
+							haveMove = true;
 
 							// 如果当前为空，后面有两个以上相同的值
 							y++;
@@ -229,6 +249,7 @@ public class GameView extends GridLayout {
 							countScore(cardsMap[x][y].getNum());
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
+							haveMove = true;
 							successGame(cardsMap[x][y].getNum());
 						}
 						break;
@@ -237,8 +258,10 @@ public class GameView extends GridLayout {
 			}
 
 		}
-		addRandomNum();
-		addRandomNum();
+		if (haveMove){
+			addRandomNum();
+			addRandomNum();
+		}
 		overGame();
 	}
 
@@ -272,16 +295,46 @@ public class GameView extends GridLayout {
 	}
 	//返回上次布局
 	public void backLastView() {
-		Toast.makeText(getContext(), "撤销",
-				Toast.LENGTH_SHORT).show();
-		for (int i = 0;i < 4;i ++) {
-			for(int j = 0;j < 4; j++) {
-				cardsMap[i][j].setNum(lastCardsMap[i][j]);
+		//判断是否为游戏刚开始
+		boolean noBeginGame = false;
+		for (int i = 0 ; i < 4 ; i++){
+			for (int j = 0 ; j < 4 ; j++){
+				if (lastCardsMap[i][j] > 0){
+					noBeginGame = true;
+				}
 			}
 		}
-		//设置分数
-		mainActivity.tvScore.setText(backScore + "");
-		score = backScore;
+		
+		if (noBeginGame){
+			//判断是否已撤销过，只能撤销一次
+			boolean backOnce = false;
+			for (int i = 0 ; i < 4 ; i++){
+				for (int j = 0 ; j < 4 ; j++){
+					if (cardsMap[i][j].getNum() != lastCardsMap[i][j]){
+						backOnce = true;
+					}
+				}
+			}
+			
+			if (backOnce){
+				Toast.makeText(getContext(), "撤销",
+						Toast.LENGTH_SHORT).show();
+				for (int i = 0;i < 4;i ++) {
+					for(int j = 0;j < 4; j++) {
+						cardsMap[i][j].setNum(lastCardsMap[i][j]);
+					}
+				}
+				//设置分数
+				mainActivity.tvScore.setText(backScore + "");
+				score = backScore;
+			}else{
+				Toast.makeText(getContext(), "只能撤销一次",
+						Toast.LENGTH_SHORT).show();
+			}
+		}else{
+			Toast.makeText(getContext(), "游戏刚开始，无法撤销",
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	//计分
