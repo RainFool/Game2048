@@ -283,6 +283,7 @@ public class GameView extends GridLayout {
 			Point p = emptyPoints
 					.remove((int) (Math.random() * emptyPoints.size()));
 			cardsMap[p.x][p.y].setNum(Math.random() > 0.1 ? 2 : 4);
+			cardsMap[p.x][p.y].animationCardBorn();
 		}
 	}
 	
