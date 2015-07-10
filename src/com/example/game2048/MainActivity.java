@@ -1,6 +1,8 @@
 package com.example.game2048;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -14,8 +16,12 @@ public class MainActivity extends Activity {
 
 	Button btnBack;
 	Button btnAgain;
+	Button btnLevel;
 	GameView gameView;
 	TextView tvScore;
+	
+	//记录难易程度
+	int level;
 
 	public MainActivity() {
 		mainActivity = this;
@@ -48,6 +54,17 @@ public class MainActivity extends Activity {
 				gameView.againGame();
 			}
 		});
+		
+		btnLevel = (Button)findViewById(R.id.btn_level);
+		btnLevel.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				gameView.selectLevel();
+			}
+		});
+		
 	}
 
 	@Override

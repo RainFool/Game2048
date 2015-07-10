@@ -14,4 +14,8 @@
     <color name="color512">#E4C02A</color>
     <color name="color1024">#EDC53F</color>
     <color name="color2048">#ECC400</color>
+
+    <color name = "colorActionBar" >#2196f3</color>
+
+
 </resources>

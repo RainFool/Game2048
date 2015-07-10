@@ -29,6 +29,9 @@ public class GameView extends GridLayout {
 	//记录每张卡片宽度的值
 	int cardWidth = -1;
 	
+	//记录难易程度
+	int level = 0;
+	
 	//记录分数
 	int score = 0;
 	int backScore = 0;
@@ -147,8 +150,17 @@ public class GameView extends GridLayout {
 
 		}
 		if (haveMove){
-			addRandomNum();
-			addRandomNum();
+			if (level == 0){
+				addRandomNum();
+			}else if(level == 1){
+				addRandomNum();
+				addRandomNum();
+			}else if (level == 2){				
+				addRandomNum();
+				addRandomNum();
+				addRandomNum();
+			}
+
 		}
 		overGame();
 	}
@@ -185,8 +197,16 @@ public class GameView extends GridLayout {
 
 		}
 		if (haveMove){
-			addRandomNum();
-			addRandomNum();
+			if (level == 0){
+				addRandomNum();
+			}else if(level == 1){
+				addRandomNum();
+				addRandomNum();
+			}else if (level == 2){				
+				addRandomNum();
+				addRandomNum();
+				addRandomNum();
+			}
 		}
 		overGame();
 	}
@@ -223,8 +243,16 @@ public class GameView extends GridLayout {
 
 		}
 		if (haveMove){
-			addRandomNum();
-			addRandomNum();
+			if (level == 0){
+				addRandomNum();
+			}else if(level == 1){
+				addRandomNum();
+				addRandomNum();
+			}else if (level == 2){				
+				addRandomNum();
+				addRandomNum();
+				addRandomNum();
+			}
 		}		
 		overGame();
 	}
@@ -261,8 +289,16 @@ public class GameView extends GridLayout {
 
 		}
 		if (haveMove){
-			addRandomNum();
-			addRandomNum();
+			if (level == 0){
+				addRandomNum();
+			}else if(level == 1){
+				addRandomNum();
+				addRandomNum();
+			}else if (level == 2){				
+				addRandomNum();
+				addRandomNum();
+				addRandomNum();
+			}
 		}
 		overGame();
 	}
@@ -424,6 +460,24 @@ public class GameView extends GridLayout {
 		mainActivity.tvScore.setText(0 + "");
 		addRandomNum();
 		addRandomNum();
+	}
+	
+	//难易程度
+	public void selectLevel(){
+		final String[] items = new String[] { "简单 ", "普通", "困难"};
+		AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+		builder.setTitle("请选择难易程度").setItems(items,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface arg0, int which) {
+						if (items[which] != "null"){
+							level = which;
+						}
+					}
+				});
+		AlertDialog ad = builder.create();
+		ad.show();
 	}
 	
 	@Override
