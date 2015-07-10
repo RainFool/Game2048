@@ -33,11 +33,47 @@ public class Card extends FrameLayout {
     }
 
     public void setNum(int num) {
+        //设置文本
         this.num = num;
         if (num <= 0) {
             label.setText("");
         } else {
             label.setText(num + "");
+        }
+        //设置颜色
+        switch (num) {
+            case 2:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color2));
+                break;
+            case 4:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color4));
+                break;
+            case 8:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color8));
+                break;
+            case 16:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color16));
+                break;
+            case 32:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color32));
+                break;
+            case 64:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color64));
+                break;
+            case 128:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color128));
+                break;
+            case 512:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color512));
+                break;
+            case 1024:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color1024));
+                break;
+            case 2048:
+                this.label.setBackgroundColor(getResources().getColor(R.color.color2048));
+                break;
+            default:
+                this.label.setBackgroundColor(getResources().getColor(R.color.colorDefault));
         }
     }
 

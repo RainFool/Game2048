@@ -11,8 +11,25 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
+<<<<<<< HEAD
+        public static final int color1024=0x7f04000a;
+        public static final int color128=0x7f040007;
+        public static final int color16=0x7f040004;
+        public static final int color2=0x7f040001;
+        public static final int color2048=0x7f04000b;
+        public static final int color256=0x7f040008;
+        public static final int color32=0x7f040005;
+        public static final int color4=0x7f040002;
+        /**  TODO
+         */
+        public static final int color512=0x7f040009;
+        public static final int color64=0x7f040006;
+        public static final int color8=0x7f040003;
+        public static final int colorDefault=0x7f040000;
+=======
         public static final int colorDefault=0x7f040000;
         public static final int colorDefault1=0x7f040001;
+>>>>>>> ed93267da8421a289ab22daabcaa225639061e22
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -29,10 +46,16 @@ public final class R {
     }
     public static final class id {
         public static final int Score=0x7f090000;
+<<<<<<< HEAD
+        public static final int action_settings=0x7f090005;
+        public static final int btn_again=0x7f090004;
+        public static final int btn_back=0x7f090003;
+=======
         public static final int action_settings=0x7f090006;
         public static final int btn_again=0x7f090004;
         public static final int btn_back=0x7f090003;
         public static final int btn_level=0x7f090005;
+>>>>>>> ed93267da8421a289ab22daabcaa225639061e22
         public static final int gameView=0x7f090002;
         public static final int tvScore=0x7f090001;
     }

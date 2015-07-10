@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <color name = "colorDefault" >#2196f3</color>
-   <color name = "colorDefault1">#ecc400</color>
+
+    <color name="colorDefault">#CCC0B3</color>
+    <color name="color2">#EEE4DA</color>
+    <color name="color4">#EDE0C8</color>
+    <color name="color8">#F2B179</color>
+    <color name="color16">#F59563</color>
+    <color name="color32">#F67C5F</color>
+    <color name="color64">#F65E3B</color>
+    <color name="color128">#EDCF72</color>
+    <color name="color256">#EDCC61</color>
+    <!-- TODO-->
+    <color name="color512">#E4C02A</color>
+    <color name="color1024">#EDC53F</color>
+    <color name="color2048">#ECC400</color>
+
+    <color name = "colorActionBar" >#2196f3</color>
+
+
 </resources>
