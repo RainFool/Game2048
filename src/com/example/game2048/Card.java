@@ -3,6 +3,7 @@ package com.example.game2048;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.view.Gravity;
 import android.view.View;
@@ -19,6 +20,7 @@ public class Card extends FrameLayout {
         label = new TextView(getContext());
         label.setBackgroundColor(0x33ffffff);
         label.setTextSize(32);
+        label.setTextColor(Color.BLACK);
         label.setGravity(Gravity.CENTER);
 
         LayoutParams lp = new LayoutParams(-1, -1);
